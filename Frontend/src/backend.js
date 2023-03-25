@@ -35,7 +35,7 @@ export default class Backend {
      * denselben Parametern zu versorgen. Aufrufbeispiel:
      *
      *   * backend.fetch("GET", "/address");
-     *   * backend.fetch("GET", "/address", {query: {first_name: "Test"}});
+     *   * backend.fetch("GET", "/address", {query: {name: "Test"}});
      *   * backend.fetch("PUT", "/address", {body: { ... }});
      *
      * Über das Options-Objekt können Query-Parameter mitgegeben werden, die
