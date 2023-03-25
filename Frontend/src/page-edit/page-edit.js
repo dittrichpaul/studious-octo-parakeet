@@ -4,7 +4,7 @@ import Page from "../page.js";
 import HtmlTemplate from "./page-edit.html";
 
 /**
- * Klasse PageEdit: Stellt die Seite zum Anlegen oder Bearbeiten einer Adresse
+ * Klasse PageEdit: Stellt die Seite zum Anlegen oder Bearbeiten einer Ausgabe
  * zur Verfügung.
  */
 export default class PageEdit extends Page {
@@ -21,17 +21,17 @@ export default class PageEdit extends Page {
         this._editId = editId;
 
         this._dataset = {
-            first_name: "",
-            last_name: "",
-            phone: "",
-            email: "",
+            name: "",
+            details: "",
+            amount: "",
+            prio: "",
         };
 
         // Eingabefelder
-        this._firstNameInput = null;
-        this._lastNameInput  = null;
-        this._phoneInput     = null;
-        this._emailInput     = null;
+        this._nameInput = null;
+        this._detailsInput  = null;
+        this._amountInput     = null;
+        this._prioInput     = null;
     }
 
     /**
@@ -55,20 +55,20 @@ export default class PageEdit extends Page {
 
         // Bearbeiteten Datensatz laden
         if (this._editId) {
-            this._url = `/address/${this._editId}`;
+            this._url = `/expense/${this._editId}`;
             this._dataset = await this._app.backend.fetch("GET", this._url);
-            this._title = `${this._dataset.first_name} ${this._dataset.last_name}`;
+            this._title = `${this._dataset.name} `;
         } else {
-            this._url = `/address`;
-            this._title = "Adresse hinzufügen";
+            this._url = `/expense`;
+            this._title = "Ausgabe hinzufügen";
         }
 
         // Platzhalter im HTML-Code ersetzen
         let html = this._mainElement.innerHTML;
-        html = html.replace("$LAST_NAME$", this._dataset.last_name);
-        html = html.replace("$FIRST_NAME$", this._dataset.first_name);
-        html = html.replace("$PHONE$", this._dataset.phone);
-        html = html.replace("$EMAIL$", this._dataset.email);
+        html = html.replace("$DETAILS$", this._dataset.details);
+        html = html.replace("$NAME$", this._dataset.name);
+        html = html.replace("$AMOUNT$", this._dataset.amount);
+        html = html.replace("$PRIO$", this._dataset.prio);
         this._mainElement.innerHTML = html;
 
         // Event Listener registrieren
@@ -76,10 +76,10 @@ export default class PageEdit extends Page {
         saveButton.addEventListener("click", () => this._saveAndExit());
 
         // Eingabefelder zur späteren Verwendung merken
-        this._firstNameInput = this._mainElement.querySelector("input.first_name");
-        this._lastNameInput  = this._mainElement.querySelector("input.last_name");
-        this._phoneInput     = this._mainElement.querySelector("input.phone");
-        this._emailInput     = this._mainElement.querySelector("input.email");
+        this._nameInput = this._mainElement.querySelector("input.name");
+        this._detailsInput  = this._mainElement.querySelector("input.details");
+        this._amountInput     = this._mainElement.querySelector("input.amount");
+        this._prioInput     = this._mainElement.querySelector("input.prio");
     }
 
     /**
@@ -89,18 +89,18 @@ export default class PageEdit extends Page {
     async _saveAndExit() {
         // Eingegebene Werte prüfen
         this._dataset._id        = this._editId;
-        this._dataset.first_name = this._firstNameInput.value.trim();
-        this._dataset.last_name  = this._lastNameInput.value.trim();
-        this._dataset.phone      = this._phoneInput.value.trim();
-        this._dataset.email      = this._emailInput.value.trim();
+        this._dataset.name       = this._nameInput.value.trim();
+        this._dataset.details    = this._detailsInput.value.trim();
+        this._dataset.amount     = this._amountInput.value.trim();
+        this._dataset.prio       = this._prioInput.value.trim();
 
-        if (!this._dataset.first_name) {
-            alert("Geben Sie erst einen Vornamen ein.");
+        if (!this._dataset.name) {
+            alert("Geben Sie erst einen Namen für die Ausgabe an 💰");
             return;
         }
 
-        if (!this._dataset.last_name) {
-            alert("Geben Sie erst einen Nachnamen ein.");
+        if (!this._dataset.amount) {
+            alert("Geben Sie einen Betrag für die Ausgabe an 💸");
             return;
         }
 
