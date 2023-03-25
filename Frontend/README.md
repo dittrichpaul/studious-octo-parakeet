@@ -13,7 +13,7 @@ Inhaltsverzeichnis
 Kurzbeschreibung
 ----------------
 
-Dies ist die clientseitige Single Page App mit dem Frontend des Adressbuchs.
+Dies ist die clientseitige Single Page App mit dem Frontend des Ausgabenmanager.
 Es handelt sich dabei um eine einfache Webanwendung, die mit VanillaJS
 (also einfachem JavaScript) ohne zusätzlichem Framework realisiert wurde.
 
@@ -63,8 +63,8 @@ folgenden Befehlen ein Docker-Container mit Node.js gestartet werden. In diesem
 können die oben gezeigten Befehle dann alternativ ausgeführt werden:
 
 ```sh
-docker network create adressbuch
-docker run -it --net adressbuch -p 8080:8080 -w /app -v "$(pwd):/app" node:17-alpine sh
+docker network create expense_manager
+docker run -it --net expense_manager -p 8080:8080 -w /app -v "$(pwd):/app" node:17-alpine sh
 ```
 
 Der erste Befehl muss dabei nur einmalig ausgeführt werden, um ein virtuelles
@@ -77,7 +77,7 @@ den Docker-Container mit Node.js. Seine Parameter haben folgende Bedeutung:
   | ------------------ | ------------------------------------------------------------- |
   | `run`              | Es soll ein Docker-Container ausgeführt werden                |
   | `-it`              | Start im Vordergrund mit interaktivem Terminal                |
-  | `--net adressbuch` | Container mit dem virtuellen Netzwerk `adressbuch` verbinden  |
+  | `--net expense_manager` | Container mit dem virtuellen Netzwerk `expense_manager` verbinden  |
   | `-p 8080:8080`     | `localhost:8080` an den Port 8080 des Containers weiterleiten |
   | `-w /app`          | Arbeitsverzeichnis `/app` im Container benutzen               |
   | `-v "$(pwd):/app"` | Das aktuelle Verzeichnis unter `/app` im Container einbinden  |
@@ -112,8 +112,8 @@ Für den Produktivbetrieb konfiguriert das beigefügte `Dockerfile` einen
 für Containervirtualisierung ausgeführt werden kann. Folgende Befehle werden
 hierfür benötigt:
 
- * `docker build -t adressbuch-frontend .` zum Bauen des Containers
- * `docker run -d -p 8080:80 --net adressbuch --name frontend adressbuch-frontend` zum Ausführen des Containers
+ * `docker build -t expense_manager-frontend .` zum Bauen des Containers
+ * `docker run -d -p 8080:80 --net expense_manager --name frontend expense_manager-frontend` zum Ausführen des Containers
  * `docker container stop frontend` zum Stoppen des Containers
  * `docker system prune` zum Aufräumen nicht mehr benötigter Daten
 
