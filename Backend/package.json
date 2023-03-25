@@ -1,8 +1,8 @@
 {
-  "name": "adressbuch-backend",
+  "name": "ausgaben-backend",
   "version": "1.0.0",
-  "description": "Adressbuch: Backend",
-  "author": "Dennis Schulmeister-Zimolong",
+  "description": "Ausgaben: Backend",
+  "author": "Paul Dittrich, Yannik Elm",
   "license": "CC-BY-4.0",
   "main": "src/index.js",
   "type": "module",

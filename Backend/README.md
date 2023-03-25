@@ -1,4 +1,4 @@
-Adressbuch: Backend
+Ausgaben: Backend
 ===================
 
 Inhaltsverzeichnis
@@ -15,7 +15,7 @@ Inhaltsverzeichnis
 Kurzbeschreibung
 ----------------
 
-Dies ist der backendseitige REST-Webservice der Adressbuch-App. Es handelt sich
+Dies ist der backendseitige REST-Webservice der Ausgaben-App. Es handelt sich
 um ein einfaches nodeJS-Projekt mit dem Webframework [Restify](http://restify.com/).
 Die Schnittstelle des Webservices ist in der Datei `src/api/openapi.yaml`
 beschrieben.
@@ -73,12 +73,12 @@ Am einfachsten kann dies durch Starten eines temporären Docker Container
 erreicht werden:
 
 ```sh
-docker network create adressbuch
-docker run -d --name mongodb --net adressbuch -p 27017:27017 mongo
+docker network create ausgaben
+docker run -d --name mongodb --net ausgaben -p 27017:27017 mongo
 ```
 
 Der erste Befehl muss dabei nur ausgeführt werden, wenn das virtuelle Netzwerk
-`adressbuch` nicht bereits zuvor angelegt wurde. Der zweite Befehl startet
+`ausgaben` nicht bereits zuvor angelegt wurde. Der zweite Befehl startet
 eine temporäre MongoDB-Instanz und verbindet sie mit dem virtuellen Netzwerk.
 Zusätzlich wird der Port 27017 das eigenen Rechners an den Port 27017 des
 Containers weitergeleitet, um die Datenbank auch dann nutzen können, wenn der
@@ -88,7 +88,7 @@ Mit folgendem Befehl kann darüber hinaus ein grafisches Admin-Tool zur
 Verwaltung der Datenbank gestartet werden:
 
 ```sh
-docker run -d --name mongo-gui --net adressbuch -p 8081:8081 -e ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017/ mongo-express
+docker run -d --name mongo-gui --net ausgaben -p 8081:8081 -e ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017/ mongo-express
 ```
 
 Mit folgenden Befehlen können die beiden Container wieder gestoppt und nicht
@@ -139,8 +139,8 @@ Node.js-Laufzeitumgebung mit dem Quellcode des Backend-Services und allen seinen
 Abhängigkeiten. Der Container kann somit direkt in eine produktive Systemlandschaft
 überführt werden. Folgende Befehle werden hierfür benötigt:
 
- * `docker build -t adressbuch-backend .` zum Bauen des Containers
- * `docker run -d -p 3000:3000 --net adressbuch --name backend adressbuch-backend` zum Ausführen des Containers
+ * `docker build -t ausgaben-backend .` zum Bauen des Containers
+ * `docker run -d -p 3000:3000 --net ausgaben --name backend ausgaben-backend` zum Ausführen des Containers
  * `docker container stop backend` zum Stoppen des Containers
  * `docker system prune` zum Aufräumen nicht mehr benötigter Daten
 
