@@ -1,249 +1,131 @@
-openapi: 3.0.0
+---
+openapi: 3.0.2
 info:
-  title: Ausgaben
+  title: Ausgabenmanager
+  version: 1.0.0
   description: "Die Ausgaben-App nutzt einen simplen REST-Webservices zur Kommunikation\
     \ mit dem Backend. Dieser ermöglicht die üblichen CRUD-Operationen zur Suche,\
     \ Anzeige, Bearbeitung und Löschung von Ausgaben, wobei jede Ausgabe aus einem\
-    \ Name, Details, Betrag und eine Priorität besteht."
+    \ Name, Details, Betrag und eine Priorität besteht"
   contact:
-    name: Paul Dittrich, Yannik Elm
-    email: pauldittrich02@gmail.com
+    name: "Paul Dittrich, Yannick Elm"
+    email: pauldittrich02gmail.com
   license:
-    name: CC-BY-4.0
-    url: https://creativecommons.org/licenses/by/4.0/deed.de
-  version: "1.0"
-servers:
-- url: http://localhost:3000
-tags:
-- name: Index
-- name: Ausgabe
+    name: The Unlicense
+    url: http://unlicense.org
 paths:
-  /:
-    get:
-      tags:
-      - Index
-      summary: Wurzeladresse des Webservices
-      description: Liefert eine HATEOAS-Übersicht aller collections
-      operationId: index
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/HATEOAS_Collection'
-                x-content-type: application/json
-
   /expense:
+    summary: Path used to manage the list of ausgabes.
+    description: "The REST endpoint/path used to list and create zero or more `Ausgabe`\
+      \ entities.  This path contains a `GET` and `POST` operation to perform the\
+      \ list and create tasks, respectively."
     get:
-      tags:
-      - Ausgabe
-      summary: Ausgaben suchen
-      description: Suche nach Ausgaben. Gibt eine Liste aller Ausgaben passend zu
-        den übergebenen Suchkriterien zurück.
-      operationId: search-expense
-      parameters:
-      - name: name
-        in: query
-        description: Gesuchter Name
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: details
-        in: query
-        description: Gesuchte Details
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: amount
-        in: query
-        description: Gesuchter Betrag
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: prio
-        in: query
-        description: Gesuchte Priorit
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
       responses:
         "200":
-          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Expense'
-                x-content-type: application/json
+          description: Successful response - returns an array of `Ausgabe` entities.
+      operationId: getAusgabes
+      summary: List All Ausgabes
+      description: Gets a list of all `Ausgabe` entities.
     post:
-      tags:
-      - Ausgabe
-      summary: Ausgabe anlegen
-      description: "Neue Ausgabe anlegen. Speichert die übergebene Ausgabe in der\
-        \ Datenbank. Der Wert des Feldes \"_id\" wird dabei ignoriert, da in jedem Fall\
-        \ eine neue Ausgabe mit neuer ID angelegt wird."
-      operationId: create-expense
       requestBody:
+        description: A new `Ausgabe` to be created.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Expense'
+        required: true
       responses:
         "201":
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Expense'
-
-  /address/{id}:
+          description: Successful response.
+      operationId: createAusgabe
+      summary: Create a Ausgabe
+      description: Creates a new instance of a `Ausgabe`.
+    parameters:
+    - name: name
+      description: Ausgabename
+      schema:
+        type: string
+      in: query
+    - name: details
+      description: Details
+      schema:
+        type: string
+      in: query
+    - name: amount
+      description: Betrag
+      schema:
+        type: string
+      in: query
+    - name: prio
+      description: Priorität
+      schema:
+        type: string
+      in: query
+  /expense/{expenseId}:
+    summary: Path used to manage a single Ausgabe.
+    description: "The REST endpoint/path used to get, update, and delete single instances\
+      \ of an `Ausgabe`.  This path contains `GET`, `PUT`, and `DELETE` operations\
+      \ used to perform the get, update, and delete tasks, respectively."
     get:
-      tags:
-      - Ausgabe
-      summary: Ausgabe lesen
-      description: Liest eine einzelne Ausgabe vom Server.
-      operationId: get-expense
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       responses:
         "200":
-          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Expense'
-        "404":
-          description: Not Found
+          description: Successful response - returns a single `Ausgabe`.
+      operationId: getAusgabe
+      summary: Get a Ausgabe
+      description: Gets the details of a single instance of a `Ausgabe`.
     put:
-      tags:
-      - Ausgabe überschreiben
-      summary: ""
-      description: "Überschreibt eine vorhandene Ausgabe auf dem Server. Bis auf die\
-        \ ID können alle Felder geändert werden. Der Versuch, die ID zu ändern, wird\
-        \ vom Server stillschweigend ignoriert."
-      operationId: update-expense
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       requestBody:
+        description: Updated `Ausgabe` information.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Expense'
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Expense'
-        "404":
-          description: Not Found
-    patch:
-      tags:
-      - Einzelne Felder ändern
-      summary: Einzelne Ausgabenfelder ändern
-      description: "Ändert einzelne Felder einer vorhandenen Ausgabe. Zulässig sind\
-        \ alle Felder bis auf die ID, da diese nachträglich nicht mehr verändert werden\
-        \ darf."
-      operationId: patch-expense
-      parameters:
-      - name: id
-        in: path
         required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Expense'
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Expense'
-        "404":
-          description: Not Found
+        "202":
+          description: Successful response.
+      operationId: updateAusgabe
+      summary: Update a Ausgabe
+      description: Updates an existing `Ausgabe`.
     delete:
-      tags:
-      - Ausgabe
-      summary: Ausgabe löschen
-      description: Löscht eine Ausgabe auf dem Server.
-      operationId: delete-expense
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+      responses:
+        "204":
+          description: Successful response.
+      operationId: deleteAusgabe
+      summary: Delete a Ausgabe
+      description: Deletes an existing `Ausgabe`.
+    patch:
+      requestBody:
+        description: Zu ändernde Felder
+        content:
+          application/json: {}
       responses:
         "200":
+          content:
+            application/json: {}
           description: OK
-        "404":
-          description: Not Found
-
+    parameters:
+    - name: expenseId
+      description: A unique identifier for a `Ausgabe`.
+      schema:
+        type: string
+      in: path
+      required: true
 components:
   schemas:
-    HATEOAS_Collection:
-      title: HATEOAS-Links einer Collection
-      type: object
-      properties:
-        _name:
-          type: string
-        query:
-          $ref: '#/components/schemas/HATEOAS_Link'
-        create:
-          $ref: '#/components/schemas/HATEOAS_Link'
-
-    HATEOAS_Resource:
-      title: HATEOAS-Links einer Resource
-      type: object
-      properties:
-        read:
-          $ref: '#/components/schemas/HATEOAS_Link'
-        update:
-          $ref: '#/components/schemas/HATEOAS_Link'
-        patch:
-          $ref: '#/components/schemas/HATEOAS_Link'
-        delete:
-          $ref: '#/components/schemas/HATEOAS_Link'
-
     HATEOAS_Link:
-      title: HATEOAS-Link
+      title: Root Type for HATEOAS_Link
+      description: HATEOAS-Link
       type: object
       properties:
         url:
@@ -254,13 +136,51 @@ components:
           type: array
           items:
             type: string
-
-    Expense:
-      title: Ausgabe
+      example:
+        url: /expense
+        method: GET
+        query_params:
+        - id
+        - name
+        - amount
+    HATEOAS_Resource:
+      title: Root Type for HATEOAS_Resource
+      description: HATEOAS-Links einer Resource
       type: object
       properties:
-        _links:
-          $ref: '#/components/schemas/HATEOAS_Resource'
+        read:
+          $ref: '#/components/schemas/HATEOAS_Link'
+        update:
+          $ref: '#/components/schemas/HATEOAS_Link'
+        patch:
+          $ref: '#/components/schemas/HATEOAS_Link'
+        delete:
+          $ref: '#/components/schemas/HATEOAS_Link'
+      example:
+        read: ""
+        update: ""
+        patch: ""
+        delete: ""
+    HATEOAS_Collection:
+      title: Root Type for HATEOAS_Collection
+      description: HATEOAS_Links einer Collection
+      type: object
+      properties:
+        _name:
+          type: string
+        query:
+          $ref: '#/components/schemas/HATEOAS_Link'
+        create:
+          $ref: '#/components/schemas/HATEOAS_Link'
+      example:
+        _name: Ausgaben
+        query: ""
+        create: ""
+    Expense:
+      title: Root Type for Ausgabe
+      description: Eintrag in Ausgabenmanager
+      type: object
+      properties:
         _id:
           type: string
         name:
@@ -271,14 +191,17 @@ components:
           type: string
         prio:
           type: string
-          pattern: "(.*@.*\\..*)?"
-      required:
-        - name
-        - amount
+        _links:
+          $ref: '#/components/schemas/HATEOAS_Resource'
+          description: ""
       example:
-        _id: "621ff9a936997df5baba746e"
-        name: "Fox"
-        details: "Mulder"
-        prio: "mulder@xfiles.com"
-        amount: "+49 721 553181"
-  securitySchemes: {}
+        _id: 621ff9a936997df5baba746e
+        name: Brot
+        details: Roggen
+        amount: "3,5"
+        prio: hoch
+tags:
+- name: Ausgabe
+  description: Ausgabeeintrag
+- name: Benutzer
+  description: Benutzereintrag
