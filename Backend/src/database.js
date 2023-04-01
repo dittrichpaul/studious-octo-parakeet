@@ -31,10 +31,10 @@ class DatabaseFactory {
      * wenigstens gleich ein paar Daten.
      */
     async _createDemoData() {
-        let addresses = this.database.collection("expenses");
+        let expenses = this.database.collection("expenses");
 
-        if (await addresses.estimatedDocumentCount() === 0) {
-            addresses.insertMany([
+        if (await expenses.estimatedDocumentCount() === 0) {
+            expenses.insertMany([
                 {
                     name: "PS5",
                     details: "Playstation 5",
@@ -67,6 +67,26 @@ class DatabaseFactory {
                 },
             ]);
         }
+
+        let income = this.database.collection("income");
+
+        if (await income.estimatedDocumentCount() === 0) {
+            income.insertMany([
+                {
+                    name: "Arbeit",
+                    details: "Kellner",
+                    amount: "5000",
+                    prio: "mittel",
+                },
+                {
+                    name: "Taschengeld",
+                    details: "",
+                    amount: "350",
+                    prio: "niedrig",
+                },
+            ]);
+        }
+
     }
 }
 

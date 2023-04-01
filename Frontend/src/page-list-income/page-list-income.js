@@ -36,10 +36,10 @@ export default class PageList extends Page {
     async init() {
         // HTML-Inhalt nachladen
         await super.init();
-        this._title = "Yarrak";
+        this._title = "Übersicht Einnahmen";
 
         // Platzhalter anzeigen, wenn noch keine Daten vorhanden sind
-        let data = await this._app.backend.fetch("GET", "/expense");
+        let data = await this._app.backend.fetch("GET", "/income");
         this._emptyMessageElement = this._mainElement.querySelector(".empty-placeholder");
 
         if (data.length) {
@@ -90,7 +90,7 @@ export default class PageList extends Page {
 
         // Datensatz löschen
         try {
-            this._app.backend.fetch("DELETE", `/expense/${id}`);
+            this._app.backend.fetch("DELETE", `/income/${id}`);
         } catch (ex) {
             this._app.showException(ex);
             return;

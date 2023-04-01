@@ -35,6 +35,10 @@ export default class RootController {
                 _name: "expense",
                 query: {url: "/expense", method: "GET", query_params: ["search", "name", "details", "amount", "prio"]},
                 create: {url: "/expense", method: "POST"},
+            },{
+                _name: "income",
+                query: {url: "/income", method: "GET", query_params: ["search", "name", "details", "amount", "prio"]},
+                create: {url: "/income", method: "POST"},
             }
         ]);
 

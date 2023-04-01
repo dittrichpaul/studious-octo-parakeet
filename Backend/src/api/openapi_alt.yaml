@@ -91,23 +91,12 @@ paths:
             schema:
               $ref: '#/components/schemas/Expense'
         required: true
-      parameters:
-      - name: expenseId
-        description: A unique identifier for a `Ausgabe`.
-        schema:
-          type: string
-        in: path
-        required: true
       responses:
         "202":
           description: Successful response.
       operationId: updateAusgabe
       summary: Update a Ausgabe
       description: Updates an existing `Ausgabe`.
-    post:
-      responses:
-        "200":
-          description: OK
     delete:
       responses:
         "204":
@@ -128,111 +117,6 @@ paths:
     parameters:
     - name: expenseId
       description: A unique identifier for a `Ausgabe`.
-      schema:
-        type: string
-      in: path
-      required: true
-  /income:
-    summary: Path used to manage the list of incomes.
-    description: "The REST endpoint/path used to list and create zero or more `Income`\
-      \ entities.  This path contains a `GET` and `POST` operation to perform the\
-      \ list and create tasks, respectively."
-    get:
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Income'
-          description: Successful response - returns an array of `Income` entities.
-      operationId: getIncomes
-      summary: List All Incomes
-      description: Gets a list of all `Income` entities.
-    post:
-      requestBody:
-        description: A new `Income` to be created.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Income'
-        required: true
-      responses:
-        "201":
-          description: Successful response.
-      operationId: createIncome
-      summary: Create a Income
-      description: Creates a new instance of a `Income`.
-    parameters:
-    - name: amount
-      description: Betrag
-      schema:
-        type: string
-      in: query
-    - name: details
-      description: Details
-      schema:
-        type: string
-      in: query
-    - name: name
-      description: Einnahmename
-      schema:
-        type: string
-      in: query
-    - name: prio
-      description: Priorität
-      schema:
-        type: string
-      in: query
-  /income/{incomeId}:
-    summary: Path used to manage a single Income.
-    description: "The REST endpoint/path used to get, update, and delete single instances\
-      \ of an `Income`.  This path contains `GET`, `PUT`, and `DELETE` operations\
-      \ used to perform the get, update, and delete tasks, respectively."
-    get:
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Income'
-          description: Successful response - returns a single `Income`.
-      operationId: getIncome
-      summary: Get a Income
-      description: Gets the details of a single instance of a `Income`.
-    put:
-      requestBody:
-        description: Updated `Income` information.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Income'
-        required: true
-      responses:
-        "202":
-          description: Successful response.
-      operationId: updateIncome
-      summary: Update a Income
-      description: Updates an existing `Income`.
-    delete:
-      responses:
-        "204":
-          description: Successful response.
-      operationId: deleteIncome
-      summary: Delete a Income
-      description: Deletes an existing `Income`.
-    patch:
-      requestBody:
-        content:
-          application/json: {}
-      responses:
-        "200":
-          description: |
-            OK
-    parameters:
-    - name: incomeId
-      description: A unique identifier for a `Income`.
       schema:
         type: string
       in: path
@@ -316,15 +200,8 @@ components:
         details: Roggen
         amount: "3,5"
         prio: hoch
-    Income:
-      description: Eintrag in Ausgaben-Manager
-      type: object
-      properties:
-        _links:
-          $ref: '#/components/schemas/HATEOAS_Resource'
-          description: ""
 tags:
 - name: Ausgabe
   description: Ausgabeeintrag
-- name: Einnahme
-  description: Einnahmeeintrag
+- name: Benutzer
+  description: Benutzereintrag

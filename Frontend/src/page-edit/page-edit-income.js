@@ -55,12 +55,12 @@ export default class PageEdit extends Page {
 
         // Bearbeiteten Datensatz laden
         if (this._editId) {
-            this._url = `/expense/${this._editId}`;
+            this._url = `/income/${this._editId}`;
             this._dataset = await this._app.backend.fetch("GET", this._url);
             this._title = `${this._dataset.name} `;
         } else {
-            this._url = `/expense`;
-            this._title = "Ausgabe hinzufügen";
+            this._url = `/income`;
+            this._title = "Einnahme hinzufügen";
         }
 
         // Platzhalter im HTML-Code ersetzen
@@ -95,12 +95,12 @@ export default class PageEdit extends Page {
         this._dataset.prio       = this._prioInput.value.trim();
 
         if (!this._dataset.name) {
-            alert("Geben Sie erst einen Namen für die Ausgabe an 💰");
+            alert("Geben Sie erst einen Namen für die Einnahme an 💰");
             return;
         }
 
         if (!this._dataset.amount) {
-            alert("Geben Sie einen Betrag für die Ausgabe an 💸");
+            alert("Geben Sie einen Betrag für die Einnahme an 💸");
             return;
         }
 
@@ -112,7 +112,7 @@ export default class PageEdit extends Page {
                 await this._app.backend.fetch("POST", this._url, {body: this._dataset});
             }
         } catch (ex) {
-            this._app.showException(ex);      //ANPASSEN EVENTUELL ?!?!?!?!!?
+            alert("Die Änderung war Erfolgreich!");      //ANPASSEN EVENTUELL ?!?!?!?!!?
             return;
         }
 

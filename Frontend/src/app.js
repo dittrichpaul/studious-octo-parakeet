@@ -40,6 +40,9 @@ class App {
             },{
                 url: "^/income_edit/(.*)$",
                 show: matches => this._gotoEditIncome(matches[1]),
+            },{
+                url: ".*",
+                show: () => this._gotoListIncome(),
             }
         ]);
 

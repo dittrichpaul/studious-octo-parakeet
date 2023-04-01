@@ -32,6 +32,12 @@ paths:
       operationId: getAusgabes
       summary: List All Ausgabes
       description: Gets a list of all `Ausgabe` entities.
+    put:
+      responses:
+        "200":
+          description: OK
+      summary: Update Ausgabe
+      description: Update Ausgabe
     post:
       requestBody:
         description: A new `Ausgabe` to be created.
@@ -150,6 +156,13 @@ paths:
       operationId: getIncomes
       summary: List All Incomes
       description: Gets a list of all `Income` entities.
+    put:
+      requestBody: {}
+      responses:
+        "200":
+          description: OK
+      summary: Update Income
+      description: Update Income
     post:
       requestBody:
         description: A new `Income` to be created.
