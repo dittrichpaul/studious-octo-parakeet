@@ -49,14 +49,14 @@ class DatabaseFactory {
                 },
                 {
                     name: "Gym Mitgliedschaft",
-                    details: "Brust gerisse",
+                    details: "monatlich",
                     amount: "25",
                     prio: "hoch",
                 },
                 {
                     name: "Netto Großeinkauf",
                     details: "Inflation ballert",
-                    amount: "100",
+                    amount: "150",
                     prio: "hoch",
                 },
                 {
@@ -74,14 +74,26 @@ class DatabaseFactory {
             income.insertMany([
                 {
                     name: "Arbeit",
-                    details: "Kellner",
+                    details: "Dualer Student",
                     amount: "5000",
-                    prio: "mittel",
+                    prio: "hoch",
                 },
                 {
                     name: "Taschengeld",
                     details: "",
                     amount: "350",
+                    prio: "mittel",
+                }, 
+                {
+                    name: "Kindergeld",
+                    details: "auf Staat sein Nacken",
+                    amount: "200",
+                    prio: "mittel",
+                },
+                {
+                    name: "Flohmarkt",
+                    details: "",
+                    amount: "25",
                     prio: "niedrig",
                 },
             ]);
