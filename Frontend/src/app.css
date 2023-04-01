@@ -55,6 +55,8 @@ nav {
 
     border: 0px solid #202020;
     border-bottom-width: 3px;
+
+
 }
 
 nav a,
@@ -78,6 +80,7 @@ nav ul {
     margin-bottom: -3px;
 
     display: flex;
+    justify-content: space-between;
 }
 
 nav li.active {

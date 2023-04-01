@@ -23,7 +23,7 @@ class App {
         // Single Page Router zur Steuerung der sichtbaren Inhalte
         this.router = new Router([
             {
-                url: "^/$",
+                url: "^/list/$",
                 show: () => this._gotoList()
             },{
                 url: "^/new/$",
@@ -32,9 +32,15 @@ class App {
                 url: "^/edit/(.*)$",
                 show: matches => this._gotoEdit(matches[1]),
             },{
-                url: ".*",
-                show: () => this._gotoList()
-            },
+                url: "^/income_list/$",
+                show: () => this._gotoListIncome()
+            },{
+                url: "^/income_new/$",
+                show: () => this._gotoNewIncome()
+            },{
+                url: "^/income_edit/(.*)$",
+                show: matches => this._gotoEditIncome(matches[1]),
+            }
         ]);
 
         // Fenstertitel merken, um später den Name der aktuellen Seite anzuhängen
@@ -77,6 +83,21 @@ class App {
         }
     }
 
+
+    async _gotoListIncome() {
+        try {
+            // Dynamischer Import, vgl. https://javascript.info/modules-dynamic-imports
+            let {default: PageList} = await import("./page-list-income/page-list-income.js");
+
+            let page = new PageList(this);
+            await page.init();
+            this._showPage(page, "income_list");
+        } catch (ex) {
+            this.showException(ex);
+        }
+    }
+
+
     /**
      * Seite zum Anlegen einer neuen Ausgabe anzeigen.  Wird vom Single Page
      * Router aufgerufen.
@@ -94,6 +115,20 @@ class App {
         }
     }
 
+    async _gotoNewIncome() {
+        try {
+            // Dynamischer Import, vgl. https://javascript.info/modules-dynamic-imports
+            let {default: PageEdit} = await import("./page-edit/page-edit-income.js");
+
+            let page = new PageEdit(this);
+            await page.init();
+            this._showPage(page, "income_new");
+        } catch (ex) {
+            this.showException(ex);
+        }
+    }
+
+
     /**
      * Seite zum Bearbeiten einer Ausgabe anzeigen.  Wird vom Single Page
      * Router aufgerufen.
@@ -108,6 +143,19 @@ class App {
             let page = new PageEdit(this, id);
             await page.init();
             this._showPage(page, "edit");
+        } catch (ex) {
+            this.showException(ex);
+        }
+    }
+
+    async _gotoEditIncome(id) {
+        try {
+            // Dynamischer Import, vgl. https://javascript.info/modules-dynamic-imports
+            let {default: PageEdit} = await import("./page-edit/page-edit-income.js");
+
+            let page = new PageEdit(this, id);
+            await page.init();
+            this._showPage(page, "income_edit");
         } catch (ex) {
             this.showException(ex);
         }
