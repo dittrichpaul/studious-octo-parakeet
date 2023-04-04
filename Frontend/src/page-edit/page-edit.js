@@ -112,7 +112,8 @@ export default class PageEdit extends Page {
                 await this._app.backend.fetch("POST", this._url, {body: this._dataset});
             }
         } catch (ex) {
-            alert("Die Änderung war Erfolgreich!");      //ANPASSEN EVENTUELL ?!?!?!?!!?
+            
+            alert("Die Änderung war Erfolgreich!");      
             return;
         }
 
